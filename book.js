@@ -75,8 +75,54 @@ function createTable(table, array) {
   }
 }
 
+function addToTable(table, object) {
+  let row = table.insertRow();
+  for (key in object) {
+    let cell = row.insertCell();
+    let text = document.createTextNode(object[key]);
+    cell.appendChild(text);
+  }
+}
+
 let table = document.querySelector('table');
 let headings = Object.keys(myLibrary[0]);
-createTable(table, myLibrary)
-createTableHead(table, headings);
+
+if (myLibrary.length >= 0) {
+  createTable(table, myLibrary)
+  createTableHead(table, headings);
+}
+
+const newBook = document.getElementById('new-book');
+const addBook = document.getElementById('add-book');
+const readChkBox = document.getElementById('read');
+
+function isRead(checkbox) {
+  if (readChkBox.checked) {
+    return "yes";
+  } else {
+    return "no";
+  }
+} 
+
+newBook.addEventListener('click', e => {
+  // show form (originally hidden)
+});
+
+addBook.addEventListener('click', e => {
+  let book = {
+    title: document.getElementById('title').value,
+    author: document.getElementById('author').value,
+    pages: document.getElementById('pages').value,
+    read: isRead(readChkBox),
+  }
+
+  if (myLibrary.length === 0) {
+    myLibrary.push(book);
+    createTable(table, myLibrary)
+    createTableHead(table, headings);
+  } else {
+    myLibrary.push(book);
+    addToTable(table, book);
+  }
+});
 
