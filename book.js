@@ -44,13 +44,31 @@ function Book(title, author, pages, read) {
   this.read = read
 }
 
-// const hP1= new Book('Harry Potter and the Philospher\'s Stone', 'J.K. Rowling', '352', 'read');
-// // hP1.info();
-// console.log(hP1.info());
-
+const newBook = document.getElementById('new-book');
+const addBook = document.getElementById('add-book');
+const titleInput = document.getElementById('title');
+const authorInput =  document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const readChkBox = document.getElementById('read');
 
 function addBookToLibrary() {
+  let book = {
+    title: titleInput.value,
+    author: authorInput.value,
+    pages: pagesInput.value,
+    read: isRead(readChkBox),
+  }
+
+  if (myLibrary.length === 0) {
+    myLibrary.push(book);
+    createTable(table, myLibrary)
+    createTableHead(table, headings);
+  } else {
+    myLibrary.push(book);
+    addToTable(table, book);
+  }
   
+  resetForm(titleInput, authorInput, pagesInput, readChkBox);
 }
 
 function createTableHead(table, headings) {
@@ -92,10 +110,6 @@ if (myLibrary.length >= 0) {
   createTableHead(table, headings);
 }
 
-const newBook = document.getElementById('new-book');
-const addBook = document.getElementById('add-book');
-const readChkBox = document.getElementById('read');
-
 function isRead(checkbox) {
   if (readChkBox.checked) {
     return "yes";
@@ -104,25 +118,18 @@ function isRead(checkbox) {
   }
 } 
 
+function resetForm(...inputs) {
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  readChkBox.checked = false;
+}
+
 newBook.addEventListener('click', e => {
   // show form (originally hidden)
 });
 
 addBook.addEventListener('click', e => {
-  let book = {
-    title: document.getElementById('title').value,
-    author: document.getElementById('author').value,
-    pages: document.getElementById('pages').value,
-    read: isRead(readChkBox),
-  }
-
-  if (myLibrary.length === 0) {
-    myLibrary.push(book);
-    createTable(table, myLibrary)
-    createTableHead(table, headings);
-  } else {
-    myLibrary.push(book);
-    addToTable(table, book);
-  }
+  addBookToLibrary();
 });
 
