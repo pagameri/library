@@ -1,40 +1,40 @@
 let myLibrary = [
-  {
-    title: 'Harry Potter and the Philosopher\'s Stone',
-    author: 'J.K. Rowling',
-    pages: '352',
-    read: 'yes',
-  },
-  {
-    title: 'One: Simple One-Pan Wonders',
-    author: 'Jamie Oliver',
-    pages: '312',
-    read: 'no',
-  },
-  {
-    title: 'The Boy, The Mole, The Fox and The Horse',
-    author: 'The Boy, The Mole, The Fox and The Horse',
-    pages: '128',
-    read: 'no',
-  },
-  {
-    title: 'The Da Vinci Code',
-    author: 'Dan Brown',
-    pages: '416',
-    read: 'yes',
-  },
-  {
-    title: 'Angels and Demons',
-    author: 'Dan Brown',
-    pages: '572',
-    read: 'yes',
-  },
-  {
-    title: 'The Ink Black Heart',
-    author: 'Robert Galbraith',
-    pages: '1024',
-    read: 'no',
-  },
+  // {
+  //   title: 'Harry Potter and the Philosopher\'s Stone',
+  //   author: 'J.K. Rowling',
+  //   pages: '352',
+  //   read: 'yes',
+  // },
+  // {
+  //   title: 'One: Simple One-Pan Wonders',
+  //   author: 'Jamie Oliver',
+  //   pages: '312',
+  //   read: 'no',
+  // },
+  // {
+  //   title: 'The Boy, The Mole, The Fox and The Horse',
+  //   author: 'The Boy, The Mole, The Fox and The Horse',
+  //   pages: '128',
+  //   read: 'no',
+  // },
+  // {
+  //   title: 'The Da Vinci Code',
+  //   author: 'Dan Brown',
+  //   pages: '416',
+  //   read: 'yes',
+  // },
+  // {
+  //   title: 'Angels and Demons',
+  //   author: 'Dan Brown',
+  //   pages: '572',
+  //   read: 'yes',
+  // },
+  // {
+  //   title: 'The Ink Black Heart',
+  //   author: 'Robert Galbraith',
+  //   pages: '1024',
+  //   read: 'no',
+  // },
 ];
 
 function Book(title, author, pages, read) {
@@ -75,14 +75,6 @@ function addToTable(table, object) {
   }
 }
 
-let table = document.querySelector('table');
-let headings = Object.keys(myLibrary[0]);
-
-if (myLibrary.length >= 0) {
-  createTable(table, myLibrary)
-  createTableHead(table, headings);
-}
-
 function isRead(checkbox) {
   if (readChkBox.checked) {
     return "yes";
@@ -91,6 +83,7 @@ function isRead(checkbox) {
   }
 } 
 
+let table = document.querySelector('table');
 const newBook = document.getElementById('new-book');
 const addBook = document.getElementById('add-book');
 const titleInput = document.getElementById('title');
@@ -114,14 +107,6 @@ function addBookToLibrary() {
   }
 
   myLibrary.push(book);
-
-  // if (myLibrary.length === 0) {
-  //   createTable(table, myLibrary)
-  //   createTableHead(table, headings);
-  // } else {
-  //   myLibrary.push(book);
-  //   addToTable(table, book);
-  // }
 }
 
 newBook.addEventListener('click', e => {
@@ -131,7 +116,8 @@ newBook.addEventListener('click', e => {
 addBook.addEventListener('click', e => {
   addBookToLibrary();
   
-  if (document.querySelector('thead') === undefined) {
+  if (document.querySelector('thead') === null) {
+    let headings = Object.keys(myLibrary[0]);
     createTable(table, myLibrary)
     createTableHead(table, headings);
   } else {
