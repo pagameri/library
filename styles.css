@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  width: max(100vh, 60%);
+  margin: auto;
+  background-color: #f5f3ff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 30px 80px;
+}
+
+h1 {
+  height: 60px;
+  align-self: center;
+  margin: 20px;
+}
+
+button {
+  padding: 8px 25px;
+  border-radius: 5px;
+  background-color: #6d28d9;
+  color: #f5f3ff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#new-book {
+  width: 150px;
+  margin: 20px 0 40px;
+  align-self: flex-start;
+}
+
+form {
+  display: none;
+  background-color: #ede9fe;
+  padding: 15px 60px;
+  margin: 20px 80px;
+  max-width: 800px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 60px repeat(4, 50px) 70px;
+  align-items: center;
+}
+
+legend {
+  grid-area: 1 / 1 / 2 / 4;
+  font-weight: bold;
+}
+
+form div {
+  padding-left: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.title {
+  grid-area: 2 / 1 / 3 / 3;
+}
+
+.author {
+  grid-area: 3 / 1 / 4 / 3;
+}
+
+.pages {
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.year {
+  grid-area: 4 / 2 / 5 / 3;
+}
+
+.read {
+  grid-area: 5 / 1 / 6 / 3;
+  display: flex;
+  align-items: center;
+}
+
+#add-book {
+  grid-area: 6 / 2 / 7 / 3; 
+  justify-self: flex-end;
+  align-self: center;
+} 
+
+input[type="text"] {
+  border: 1px solid #c4b5fd;
+  border-radius: 3px;
+  padding: 5px;
+  width: 500px;
+}
+
+input[type="tel"] {
+  border: 1px solid #c4b5fd;
+  border-radius: 3px;
+  padding: 5px;
+  width: 50px;
+}
+
+label {
+  width: 70px;
+  padding-right: 20px;
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px
+}
+
+label:last-child {
+  width: 400px;
+  padding-left: 10px; 
+}
+
+table {
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd6fe;
+  padding: 15px;
+} 
+
+thead {
+  text-align: left;
+}
+
+tbody tr td:nth-child(3),
+tbody tr td:nth-child(4) {
+  text-align: right;
+}
+
+th {
+  height: 70px;
+  background-color: #ddd6fe;
+}
+
+tr {
+  border-radius: 5px;
+  height: 48px;
+}
+
+tr:hover {
+  background-color: #ede9fe;
+}
+
+
+/* color code or add tick / X read: yes and no accodringly */
