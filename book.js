@@ -70,7 +70,7 @@ function createDelBtn(row) {
 
 function addDataSet(row) {
   data = row.dataset;
-  data.dataCount = dataCount + 1;
+  data.bookNumber = dataCount;
   dataCount++;
 }
 
@@ -143,17 +143,17 @@ function resetForm(...inputs) {
   readChkBox.checked = false;
 }
 
+let bookID;
+
 function addBookToLibrary() {
-  let bookCount;
   if (myLibrary.length === 0) {
-    bookCount = 0;
+    bookID = 0;
   } else {
-    bookCount = myLibrary[myLibrary.length - 1].count;
-    bookCount = Number(bookCount) + 1;
+    bookID++;
   }
   
   let book = {
-    count: bookCount,
+    count: bookID,
     title: titleInput.value,
     author: authorInput.value,
     pages: pagesInput.value,
@@ -188,8 +188,9 @@ const deleteBook = document.querySelectorAll('.delete-book');
 
 deleteBook.forEach((button) => {
   button.addEventListener('click', e => {
-    let bookNumber = (e.target.parentNode.parentNode.dataset.bookCount) - 1;
-    myLibrary.splice(bookNumber, 1);
+    let dataBookNumber = (e.target.parentNode.parentNode.dataset.bookNumber);
+    console.log(dataBookNumber);
+    myLibrary.splice(dataBookNumber, 1);
     console.log(myLibrary);
     // remove book from myLibrary and from table using the data attribute
   });
