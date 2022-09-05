@@ -72,9 +72,17 @@ function addBookToLibrary() {
 function displayBooks() {
   const tableBody = document.querySelector('tbody');
   const tableHead = document.querySelector('thead');
-  let headings = Object.keys(myLibrary[0]);
+  let headings;
+  if (myLibrary.length === 0) {
+    tableBody.innerHTML = "";
+    tableHead.innerHTML = "";
+    return;
+  } else {
+    headings = Object.keys(myLibrary[0]);
+  }
 
   if (tableBody === null) {;
+    dataCount = 0;
     createTable(table, myLibrary);
     createTableHead(table, headings);
   } else {
@@ -156,7 +164,6 @@ function createDelBtn(row) {
 function deleteBook(delBtn) {
   let bookID = (delBtn.getAttribute('data-book-number'));
   myLibrary.splice(bookID, 1);
-  console.log(myLibrary);
   displayBooks();
 }
 
@@ -167,20 +174,3 @@ function addDataSet(button) {
   data.bookNumber = dataCount;
   dataCount++;
 }
-
-// delBtn.forEach((button) => {
-//   button.addEventListener('click', e => {
-//     console.log(e.target.parentNode.parentNode.dataset.bookNumber);
-//   });
-// })
-
-// deleteBookBtn.forEach((button) => {
-//   button.addEventListener('click', e => {
-//     let dataBookNumber = (e.target.parentNode.parentNode.dataset.bookNumber);
-//     console.log(dataBookNumber);
-//     myLibrary.splice(dataBookNumber, 1);
-//     console.log(myLibrary);
-//     // remove book from myLibrary and from table using the data attribute
-//   });
-// });
-// displayBooks();
