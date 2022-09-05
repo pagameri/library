@@ -1,6 +1,5 @@
 let myLibrary = [
   {
-    count: '0',
     title: 'Harry Potter and the Philosopher\'s Stone',
     author: 'J.K. Rowling',
     pages: '352',
@@ -8,7 +7,6 @@ let myLibrary = [
     read: 'yes',
   },
   {
-    count: '1',
     title: 'One: Simple One-Pan Wonders',
     author: 'Jamie Oliver',
     pages: '312',
@@ -16,7 +14,6 @@ let myLibrary = [
     read: 'no',
   },
   {
-    count: '2',
     title: 'The Boy, The Mole, The Fox and The Horse',
     author: 'The Boy, The Mole, The Fox and The Horse',
     pages: '128',
@@ -24,7 +21,6 @@ let myLibrary = [
     read: 'no',
   },
   {
-    count: '3',
     title: 'The Da Vinci Code',
     author: 'Dan Brown',
     pages: '416',
@@ -32,7 +28,6 @@ let myLibrary = [
     read: 'yes',
   },
   {
-    count: '4',
     title: 'Angels and Demons',
     author: 'Dan Brown',
     pages: '572',
@@ -40,7 +35,6 @@ let myLibrary = [
     read: 'yes',
   },
   {
-    count: '5',
     title: 'The Ink Black Heart',
     author: 'Robert Galbraith',
     pages: '1024',
@@ -55,31 +49,62 @@ function Book(title, author, pages, year, read) {
   this.pages = pages;
   this.year = year;
   this.read = read;
-  this.count = count;
 }
 
-let dataCount = 0;
+const table = document.querySelector('table');
+const newBook = document.getElementById('new-book');
+const addBook = document.getElementById('add-book');
+const titleInput = document.getElementById('title');
+const authorInput =  document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const yearInput = document.getElementById('year');
+const readChkBox = document.getElementById('read');
+const form = document.querySelector('form');
+const deleteBookBtn = document.querySelectorAll('.delete-book');
 
-function createDelBtn(row) {
-  let cell = row.insertCell();
-  let delBtn = document.createElement('button');
-  delBtn.innerHTML = "Delete";
-  delBtn.setAttribute('class', 'delete-book');
-  cell.appendChild(delBtn);
+
+function addBookToLibrary() {
+  let book = new Book(titleInput.value, authorInput.value, pagesInput.value, yearInput.value, isRead(readChkBox));
+
+  myLibrary.push(book);
 }
 
-function addDataSet(row) {
-  data = row.dataset;
-  data.bookNumber = dataCount;
-  dataCount++;
+function displayBooks() {
+  const tableBody = document.querySelector('tbody');
+  const tableHead = document.querySelector('thead');
+  let headings = Object.keys(myLibrary[0]);
+
+  if (tableBody === null) {;
+    createTable(table, myLibrary);
+    createTableHead(table, headings);
+  } else {
+    tableBody.innerHTML = "";
+    tableHead.innerHTML = "";
+    dataCount = 0;
+    createTable(table, myLibrary);
+    createTableHead(table, headings);
+  }
+}
+
+function createTable(table, array) {
+  for (let element of array) {
+    let row = table.insertRow();
+
+    for (key in element) {
+      let cell = row.insertCell();
+      let text = document.createTextNode(element[key]);
+      cell.appendChild(text);
+    }
+  createDelBtn(row);
+  }
 }
 
 function createTableHead(table, headings) {
   let thead = table.createTHead();
   let row = thead.insertRow();
-  for (let i = 0; i < headings.length; i++) {
+  for (let heading in headings) {
     let th = document.createElement('th');
-    let text = document.createTextNode(headings[i].charAt(0).toUpperCase() + headings[i].slice(1));
+    let text = document.createTextNode(headings[heading].charAt(0).toUpperCase() + headings[heading].slice(1));
     th.appendChild(text);
     row.appendChild(th);
   }
@@ -89,51 +114,26 @@ function createTableHead(table, headings) {
   row.appendChild(th);
 }
 
-function createTable(table, array) {
-  for (let element of array) {
-    addToTable(table, element);
-  }
-}
-
-function addToTable(table, object) {
-  let row = table.insertRow();
-  let values = Object.values(object);
-  values.shift();
-
-  for (i = 0; i < values.length; i++) {
-    let cell = row.insertCell();
-    let text = document.createTextNode(values[i]);
-    cell.appendChild(text);
-  }
-  createDelBtn(row);
-  addDataSet(row);
-}
-
 function isRead(checkbox) {
   if (readChkBox.checked) {
     return "yes";
   } else {
     return "no";
   }
-} 
-
-let table = document.querySelector('table');
-const newBook = document.getElementById('new-book');
-const addBook = document.getElementById('add-book');
-const titleInput = document.getElementById('title');
-const authorInput =  document.getElementById('author');
-const pagesInput = document.getElementById('pages');
-const yearInput = document.getElementById('year');
-const readChkBox = document.getElementById('read');
-const form = document.querySelector('form');
-
-
-if (myLibrary.length > 0) {
-  let headings = Object.keys(myLibrary[0]);
-  headings.shift();
-  createTable(table, myLibrary)
-  createTableHead(table, headings);
 }
+
+newBook.addEventListener('click', e => {
+  form.style.display = "block";
+});
+
+addBook.addEventListener('click', e => {
+  addBookToLibrary();
+  displayBooks();
+
+  resetForm(titleInput, authorInput, pagesInput, yearInput, readChkBox);
+  form.style.display = "none";
+});
+
 
 function resetForm(...inputs) {
   titleInput.value = "";
@@ -143,56 +143,44 @@ function resetForm(...inputs) {
   readChkBox.checked = false;
 }
 
-let bookID;
-
-function addBookToLibrary() {
-  if (myLibrary.length === 0) {
-    bookID = 0;
-  } else {
-    bookID++;
-  }
-  
-  let book = {
-    count: bookID,
-    title: titleInput.value,
-    author: authorInput.value,
-    pages: pagesInput.value,
-    year: yearInput.value,
-    read: isRead(readChkBox),
-  }
-
-  myLibrary.push(book);
+function createDelBtn(row) {
+  let cell = row.insertCell();
+  let delBtn = document.createElement('button');
+  delBtn.innerHTML = "Delete";
+  delBtn.setAttribute('class', 'delBtn');
+  cell.appendChild(delBtn);
+  addDataSet(delBtn);
+  delBtn.onclick = function(){deleteBook(delBtn)};
 }
 
-newBook.addEventListener('click', e => {
-  form.style.display = "block";
-});
+function deleteBook(delBtn) {
+  let bookID = (delBtn.getAttribute('data-book-number'));
+  myLibrary.splice(bookID, 1);
+  console.log(myLibrary);
+  displayBooks();
+}
 
-addBook.addEventListener('click', e => {
-  addBookToLibrary();
-  
-  if (document.querySelector('thead') === null) {
-    let headings = Object.keys(myLibrary[0]);
-    headings.shift();
-    createTable(table, myLibrary)
-    createTableHead(table, headings);
-  } else {
-    addToTable(table, myLibrary[myLibrary.length - 1]);
-  }
+let dataCount = 0;
 
-  resetForm(titleInput, authorInput, pagesInput, yearInput, readChkBox);
-  form.style.display = "none";
-});
+function addDataSet(button) {
+  data = button.dataset;
+  data.bookNumber = dataCount;
+  dataCount++;
+}
 
-const deleteBook = document.querySelectorAll('.delete-book');
+// delBtn.forEach((button) => {
+//   button.addEventListener('click', e => {
+//     console.log(e.target.parentNode.parentNode.dataset.bookNumber);
+//   });
+// })
 
-deleteBook.forEach((button) => {
-  button.addEventListener('click', e => {
-    let dataBookNumber = (e.target.parentNode.parentNode.dataset.bookNumber);
-    console.log(dataBookNumber);
-    myLibrary.splice(dataBookNumber, 1);
-    console.log(myLibrary);
-    // remove book from myLibrary and from table using the data attribute
-  });
-});
-
+// deleteBookBtn.forEach((button) => {
+//   button.addEventListener('click', e => {
+//     let dataBookNumber = (e.target.parentNode.parentNode.dataset.bookNumber);
+//     console.log(dataBookNumber);
+//     myLibrary.splice(dataBookNumber, 1);
+//     console.log(myLibrary);
+//     // remove book from myLibrary and from table using the data attribute
+//   });
+// });
+// displayBooks();
