@@ -154,5 +154,59 @@ tr:hover {
   background-color: #ede9fe;
 }
 
+tr td:nth-child(5) {
+  max-width: 69.81px;
+}
 
-/* color code or add tick / X read: yes and no accodringly */
+.toggle {
+  position: relative;
+  display: inline-block;
+  max-width: 48px;
+  height: 28px;
+  /* max-width: 40px;
+  height: 20px;
+  background-color: #bbb;
+  border-radius: 20px; */
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #c4b5fd;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6d28d9;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #6d28d9;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(19px);
+  -ms-transform: translateX(19px);
+  transform: translateX(19px);
+}
+
+color code or add tick / X read: yes and no accodringly
