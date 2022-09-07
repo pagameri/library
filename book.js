@@ -69,13 +69,24 @@ function addBookToLibrary() {
   myLibrary.push(book);
 }
 
+
+function isRead(checkbox) {
+  if (readChkBox.checked) {
+    return 'yes';
+  } else {
+    return 'no';
+  }
+}
+
+
 function displayBooks() {
   const tableBody = document.querySelector('tbody');
   const tableHead = document.querySelector('thead');
   let headings;
+  
   if (myLibrary.length === 0) {
-    tableBody.innerHTML = "";
-    tableHead.innerHTML = "";
+    tableBody.innerHTML = '';
+    tableHead.innerHTML = '';
     return;
   } else {
     headings = Object.keys(myLibrary[0]);
@@ -86,26 +97,96 @@ function displayBooks() {
     createTable(table, myLibrary);
     createTableHead(table, headings);
   } else {
-    tableBody.innerHTML = "";
-    tableHead.innerHTML = "";
+    tableBody.innerHTML = '';
+    tableHead.innerHTML = '';
     dataCount = 0;
     createTable(table, myLibrary);
     createTableHead(table, headings);
   }
 }
 
+
 function createTable(table, array) {
+  let readCounter = 0;
   for (let element of array) {
     let row = table.insertRow();
-
     for (key in element) {
       let cell = row.insertCell();
-      let text = document.createTextNode(element[key]);
-      cell.appendChild(text);
+      if (key === 'read') {
+        let readStatus = element[key];
+        createSetToggle(cell, readCounter, readStatus);
+        readCounter++;
+      } else {
+        let text = document.createTextNode(element[key]);
+        cell.appendChild(text);
+      }
     }
-  createDelBtn(row);
+    createDelBtn(row);
   }
 }
+
+
+function createSetToggle(cell, readCounter, readStatus) {
+  let label = document.createElement('label');
+  label.setAttribute('class', 'toggle');
+  label.setAttribute('for', readCounter);
+  cell.appendChild(label);
+
+  let toggle = document.createElement('input');
+  toggle.setAttribute('type', 'checkbox');
+  toggle.setAttribute('id', readCounter);
+  toggle.onclick = function(){changeReadStatus(readCounter, toggle)}
+  label.appendChild(toggle);
+
+  let slider = document.createElement('span');
+  slider.setAttribute('class', 'slider');
+  label.appendChild(slider);
+
+  if (readStatus === 'yes') {
+    toggle.checked = true;
+  } else {
+    toggle.checked = false;
+  }
+}
+
+
+function changeReadStatus(index, toggle) {
+  if (toggle.checked === true) {
+    toggle.checked = true;
+    myLibrary[index].read = 'yes';
+  } else {
+    toggle.checked = false;
+    myLibrary[index].read = 'no';
+  }
+}
+
+
+function createDelBtn(row) {
+  let cell = row.insertCell();
+  let delBtn = document.createElement('button');
+  delBtn.innerHTML = 'Delete';
+  delBtn.setAttribute('class', 'delBtn');
+  cell.appendChild(delBtn);
+  addDataSet(delBtn);
+  delBtn.onclick = function(){deleteBook(delBtn)};
+}
+
+
+let dataCount = 0;
+
+function addDataSet(button) {
+  data = button.dataset;
+  data.bookNumber = dataCount;
+  dataCount++;
+}
+
+
+function deleteBook(delBtn) {
+  let bookID = (delBtn.getAttribute('data-book-number'));
+  myLibrary.splice(bookID, 1);
+  displayBooks();
+}
+
 
 function createTableHead(table, headings) {
   let thead = table.createTHead();
@@ -122,55 +203,28 @@ function createTableHead(table, headings) {
   row.appendChild(th);
 }
 
-function isRead(checkbox) {
-  if (readChkBox.checked) {
-    return "yes";
-  } else {
-    return "no";
-  }
-}
 
 newBook.addEventListener('click', e => {
-  form.style.display = "block";
+  form.style.display = 'block';
 });
+
 
 addBook.addEventListener('click', e => {
   addBookToLibrary();
   displayBooks();
 
   resetForm(titleInput, authorInput, pagesInput, yearInput, readChkBox);
-  form.style.display = "none";
+  form.style.display = 'none';
 });
 
 
 function resetForm(...inputs) {
-  titleInput.value = "";
-  authorInput.value = "";
-  pagesInput.value = "";
-  yearInput.value = "";
+  titleInput.value = '';
+  authorInput.value = '';
+  pagesInput.value = '';
+  yearInput.value = '';
   readChkBox.checked = false;
 }
 
-function createDelBtn(row) {
-  let cell = row.insertCell();
-  let delBtn = document.createElement('button');
-  delBtn.innerHTML = "Delete";
-  delBtn.setAttribute('class', 'delBtn');
-  cell.appendChild(delBtn);
-  addDataSet(delBtn);
-  delBtn.onclick = function(){deleteBook(delBtn)};
-}
 
-function deleteBook(delBtn) {
-  let bookID = (delBtn.getAttribute('data-book-number'));
-  myLibrary.splice(bookID, 1);
-  displayBooks();
-}
-
-let dataCount = 0;
-
-function addDataSet(button) {
-  data = button.dataset;
-  data.bookNumber = dataCount;
-  dataCount++;
-}
+displayBooks();
