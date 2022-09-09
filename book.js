@@ -300,8 +300,10 @@ form.style.display = 'none';
 newBook.addEventListener('click', e => {
   if (form.style.display === 'none') {
     form.style.display = 'block';
+    newBook.innerText = 'CLOSE'
   } else {
     form.style.display = 'none';
+    newBook.innerText = 'NEW BOOK';
   }
 });
 
