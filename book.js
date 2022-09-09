@@ -61,6 +61,10 @@ const yearInput = document.getElementById('year');
 const readChkBox = document.getElementById('read');
 const form = document.querySelector('form');
 const deleteBookBtn = document.querySelectorAll('.delete-book');
+const totalBookCount = document.getElementById('total-books');
+const readBookCount = document.getElementById('read-books');
+const notReadCount = document.getElementById('not-read-books');
+let readBooks;
 
 
 function addBookToLibrary() {
@@ -103,6 +107,8 @@ function displayBooks() {
     createTable(table, myLibrary);
     createTableHead(table, headings);
   }
+    
+  displayBookCounter();
 }
 
 
@@ -154,9 +160,11 @@ function changeReadStatus(index, toggle) {
   if (toggle.checked === true) {
     toggle.checked = true;
     myLibrary[index].read = 'yes';
+    displayBookCounter();
   } else {
     toggle.checked = false;
     myLibrary[index].read = 'no';
+    displayBookCounter();
   }
 }
 
@@ -205,6 +213,16 @@ function createTableHead(table, headings) {
   th.appendChild(text);
   row.appendChild(th);
 }
+
+
+function displayBookCounter() {
+  readBooks = myLibrary.filter(book => book.read === 'yes');
+  
+  totalBookCount.innerText = myLibrary.length;
+  readBookCount.innerText = readBooks.length;
+  notReadCount.innerText = myLibrary.length - readBooks.length;
+}
+
 
 function sortTable(n) {
   let switching = true;
@@ -276,8 +294,15 @@ function sortTable(n) {
   }
 }
 
+
+form.style.display = 'none';
+
 newBook.addEventListener('click', e => {
-  form.style.display = 'block';
+  if (form.style.display === 'none') {
+    form.style.display = 'block';
+  } else {
+    form.style.display = 'none';
+  }
 });
 
 
