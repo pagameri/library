@@ -191,11 +191,14 @@ function deleteBook(delBtn) {
 function createTableHead(table, headings) {
   let thead = table.createTHead();
   let row = thead.insertRow();
-  for (let heading in headings) {
+  for (let i = 0; i < headings.length; i++) {
     let th = document.createElement('th');
-    let text = document.createTextNode(headings[heading].charAt(0).toUpperCase() + headings[heading].slice(1));
+    let text = document.createTextNode(headings[i].charAt(0).toUpperCase() + headings[i].slice(1));
     th.appendChild(text);
     row.appendChild(th);
+    if (i < 5) {
+      th.onclick = function(){sortTable(i)};
+    }
   }
   let th = document.createElement('th');
   let text = document.createTextNode('Delete');
@@ -203,6 +206,75 @@ function createTableHead(table, headings) {
   row.appendChild(th);
 }
 
+function sortTable(n) {
+  let switching = true;
+  let dir = 'asc';
+  let i, rows, shouldSwitch, x, y;
+  let switchCount = 0;
+
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName('td')[n];
+      y = rows[i + 1].getElementsByTagName('td')[n];
+      let checkboxA, checkboxB;
+      
+      if (n < 2) {
+        if (dir === 'asc') {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+          }
+        } else if (dir === 'desc') {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+          }
+        }
+      } else if (n === 4) {
+        checkboxA = rows[i].querySelector('input[type=checkbox]');
+        checkboxB = rows[i + 1].querySelector('input[type=checkbox]');
+        if (dir === 'asc') {
+          if (checkboxA.checked && !checkboxB.checked) {
+            shouldSwitch = true;
+          }
+        } else if (dir === 'desc') {
+          if (!checkboxA.checked && checkboxB.checked) {
+            shouldSwitch = true;
+          }
+        } 
+      } else {
+        if (dir === 'asc') {
+          if (Number(x.innerHTML) > Number(y.innerHTML)) {
+            shouldSwitch = true;
+          }
+        } else if (dir === 'desc') {
+          if (Number(x.innerHTML) < Number(y.innerHTML)) {
+            shouldSwitch = true;
+          }
+        }
+      }
+
+    if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        switchCount++;
+      } else {
+        if (checkboxA === undefined) {
+          if (switchCount === 0 && dir == 'asc' && (x.innerHTML !== y.innerHTML)) {
+            dir = 'desc'
+            switching = true;
+          }
+        }
+        else if (switchCount === 0 && dir == 'asc' && !checkboxA.checked) {
+          dir = 'desc'
+          switching = true;
+        }
+      }
+    }
+  }
+}
 
 newBook.addEventListener('click', e => {
   form.style.display = 'block';
