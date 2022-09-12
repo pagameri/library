@@ -68,19 +68,20 @@ let readBooks;
 
 
 function addBookToLibrary() {
-  let book = new Book(titleInput.value, authorInput.value, pagesInput.value, yearInput.value, isRead(readChkBox));
+  let readValue = function () {
+    if (readChkBox.checked) {
+      return 'yes';
+    } else {
+      return 'no';
+    }
+  }
+  
+  let book = new Book(titleInput.value, authorInput.value, pagesInput.value, yearInput.value, readValue);
 
   myLibrary.push(book);
 }
 
 
-function isRead(checkbox) {
-  if (readChkBox.checked) {
-    return 'yes';
-  } else {
-    return 'no';
-  }
-}
 
 
 function displayBooks() {
