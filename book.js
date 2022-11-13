@@ -1,6 +1,6 @@
 let myLibrary = [
   {
-    title: 'Harry Potter and the Philosopher\'s Stone',
+    title: "Harry Potter and the Philosopher's Stone",
     author: 'J.K. Rowling',
     pages: '352',
     year: '1997',
@@ -55,7 +55,7 @@ const table = document.querySelector('table');
 const newBook = document.getElementById('new-book');
 const addBook = document.getElementById('add-book');
 const titleInput = document.getElementById('title');
-const authorInput =  document.getElementById('author');
+const authorInput = document.getElementById('author');
 const pagesInput = document.getElementById('pages');
 const yearInput = document.getElementById('year');
 const readChkBox = document.getElementById('read');
@@ -66,13 +66,17 @@ const readBookCount = document.getElementById('read-books');
 const notReadCount = document.getElementById('not-read-books');
 let readBooks;
 
-
 function addBookToLibrary() {
-  let book = new Book(titleInput.value, authorInput.value, pagesInput.value, yearInput.value, isRead(readChkBox));
+  let book = new Book(
+    titleInput.value,
+    authorInput.value,
+    pagesInput.value,
+    yearInput.value,
+    isRead(readChkBox)
+  );
 
   myLibrary.push(book);
 }
-
 
 function isRead(checkbox) {
   if (readChkBox.checked) {
@@ -82,12 +86,11 @@ function isRead(checkbox) {
   }
 }
 
-
 function displayBooks() {
   const tableBody = document.querySelector('tbody');
   const tableHead = document.querySelector('thead');
   let headings;
-  
+
   if (myLibrary.length === 0) {
     tableBody.innerHTML = '';
     tableHead.innerHTML = '';
@@ -96,7 +99,7 @@ function displayBooks() {
     headings = Object.keys(myLibrary[0]);
   }
 
-  if (tableBody === null) {;
+  if (tableBody === null) {
     dataCount = 0;
     createTable(table, myLibrary);
     createTableHead(table, headings);
@@ -107,10 +110,9 @@ function displayBooks() {
     createTable(table, myLibrary);
     createTableHead(table, headings);
   }
-    
+
   displayBookCounter();
 }
-
 
 function createTable(table, array) {
   let readCounter = 0;
@@ -131,7 +133,6 @@ function createTable(table, array) {
   }
 }
 
-
 function createSetToggle(cell, readCounter, readStatus) {
   let label = document.createElement('label');
   label.setAttribute('class', 'toggle');
@@ -141,7 +142,9 @@ function createSetToggle(cell, readCounter, readStatus) {
   let toggle = document.createElement('input');
   toggle.setAttribute('type', 'checkbox');
   toggle.setAttribute('id', readCounter);
-  toggle.onclick = function(){changeReadStatus(readCounter, toggle)}
+  toggle.onclick = function () {
+    changeReadStatus(readCounter, toggle);
+  };
   label.appendChild(toggle);
 
   let slider = document.createElement('span');
@@ -155,7 +158,6 @@ function createSetToggle(cell, readCounter, readStatus) {
   }
 }
 
-
 function changeReadStatus(index, toggle) {
   if (toggle.checked === true) {
     toggle.checked = true;
@@ -168,7 +170,6 @@ function changeReadStatus(index, toggle) {
   }
 }
 
-
 function createDelBtn(row) {
   let cell = row.insertCell();
   let delBtn = document.createElement('button');
@@ -176,9 +177,10 @@ function createDelBtn(row) {
   delBtn.setAttribute('class', 'delBtn');
   cell.appendChild(delBtn);
   addDataSet(delBtn);
-  delBtn.onclick = function(){deleteBook(delBtn)};
+  delBtn.onclick = function () {
+    deleteBook(delBtn);
+  };
 }
-
 
 let dataCount = 0;
 
@@ -188,24 +190,26 @@ function addDataSet(button) {
   dataCount++;
 }
 
-
 function deleteBook(delBtn) {
-  let bookID = (delBtn.getAttribute('data-book-number'));
+  let bookID = delBtn.getAttribute('data-book-number');
   myLibrary.splice(bookID, 1);
   displayBooks();
 }
-
 
 function createTableHead(table, headings) {
   let thead = table.createTHead();
   let row = thead.insertRow();
   for (let i = 0; i < headings.length; i++) {
     let th = document.createElement('th');
-    let text = document.createTextNode(headings[i].charAt(0).toUpperCase() + headings[i].slice(1));
+    let text = document.createTextNode(
+      headings[i].charAt(0).toUpperCase() + headings[i].slice(1)
+    );
     th.appendChild(text);
     row.appendChild(th);
     if (i < 5) {
-      th.onclick = function(){sortTable(i)};
+      th.onclick = function () {
+        sortTable(i);
+      };
     }
   }
   let th = document.createElement('th');
@@ -214,15 +218,13 @@ function createTableHead(table, headings) {
   row.appendChild(th);
 }
 
-
 function displayBookCounter() {
-  readBooks = myLibrary.filter(book => book.read === 'yes');
-  
+  readBooks = myLibrary.filter((book) => book.read === 'yes');
+
   totalBookCount.innerText = myLibrary.length;
   readBookCount.innerText = readBooks.length;
   notReadCount.innerText = myLibrary.length - readBooks.length;
 }
-
 
 function sortTable(n) {
   let switching = true;
@@ -234,12 +236,12 @@ function sortTable(n) {
     switching = false;
     rows = table.rows;
 
-    for (i = 1; i < (rows.length - 1); i++) {
+    for (i = 1; i < rows.length - 1; i++) {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName('td')[n];
       y = rows[i + 1].getElementsByTagName('td')[n];
       let checkboxA, checkboxB;
-      
+
       if (n < 2) {
         if (dir === 'asc') {
           if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
@@ -261,7 +263,7 @@ function sortTable(n) {
           if (!checkboxA.checked && checkboxB.checked) {
             shouldSwitch = true;
           }
-        } 
+        }
       } else {
         if (dir === 'asc') {
           if (Number(x.innerHTML) > Number(y.innerHTML)) {
@@ -274,19 +276,22 @@ function sortTable(n) {
         }
       }
 
-    if (shouldSwitch) {
+      if (shouldSwitch) {
         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         switching = true;
         switchCount++;
       } else {
         if (checkboxA === undefined) {
-          if (switchCount === 0 && dir == 'asc' && (x.innerHTML !== y.innerHTML)) {
-            dir = 'desc'
+          if (
+            switchCount === 0 &&
+            dir == 'asc' &&
+            x.innerHTML !== y.innerHTML
+          ) {
+            dir = 'desc';
             switching = true;
           }
-        }
-        else if (switchCount === 0 && dir == 'asc' && !checkboxA.checked) {
-          dir = 'desc'
+        } else if (switchCount === 0 && dir == 'asc' && !checkboxA.checked) {
+          dir = 'desc';
           switching = true;
         }
       }
@@ -294,28 +299,28 @@ function sortTable(n) {
   }
 }
 
-
 form.style.display = 'none';
 
-newBook.addEventListener('click', e => {
+newBook.addEventListener('click', (e) => {
   if (form.style.display === 'none') {
     form.style.display = 'block';
-    newBook.innerText = 'CLOSE'
+    newBook.innerText = 'CLOSE';
   } else {
     form.style.display = 'none';
     newBook.innerText = 'NEW BOOK';
   }
 });
 
+// const form = document.querySelector(form);
 
-addBook.addEventListener('click', e => {
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
   addBookToLibrary();
   displayBooks();
 
   resetForm(titleInput, authorInput, pagesInput, yearInput, readChkBox);
   form.style.display = 'none';
 });
-
 
 function resetForm(...inputs) {
   titleInput.value = '';
@@ -324,6 +329,5 @@ function resetForm(...inputs) {
   yearInput.value = '';
   readChkBox.checked = false;
 }
-
 
 displayBooks();

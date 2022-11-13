@@ -1,64 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <span>
-      <div>Total books:</div>
-      <p id="total-books"></p>
-    </span>
-    <span>
-      <div>Read:</div>
-      <p id="read-books"></p>
-    </span>
-    <span>
-      <div>Not read:</div>
-      <p id="not-read-books"></p>
-    </span>
-  </header>
-  
-  <main>
-    <div class="container">
-      <h1>My Library</h1>
-      <button type="button" id="new-book">NEW BOOK</button>
-      
-      <form action="" method="post">
-        <div class="form-container">
-          <legend>New book details</legend>
-          <div class="title">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title">
-          </div>
-          <div class="author">
-            <label for="author">Author:</label>
-            <input type="text" name="author" id="author">
-          </div>
-          <div class="pages">
-            <label for="pages">Pages:</label>
-            <input type="tel" name="pages" id="pages">
-          </div>
-          <div class="year">
-            <label for="year">Year:</label>
-            <input type="tel" name="year" id="year">
-          </div>
-          <div class="read">
-            <input type="checkbox" name="read" id="read">
-            <label for="read">Read this book.</label>
-          </div>
-          <button type="button" id="add-book">Add Book</button>
-        </div>
-      </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <span>
+        <div>Total books:</div>
+        <p id="total-books"></p>
+      </span>
+      <span>
+        <div>Read:</div>
+        <p id="read-books"></p>
+      </span>
+      <span>
+        <div>Not read:</div>
+        <p id="not-read-books"></p>
+      </span>
+    </header>
 
-      <table>
-      </table>
-    </div>
-  </main>
-  <script src="book.js"></script>
-</body>
+    <main>
+      <div class="container">
+        <h1>My Library</h1>
+        <button type="button" id="new-book">NEW BOOK</button>
+
+        <form action="" method="post">
+          <div class="form-container">
+            <legend>New book details</legend>
+            <div class="title">
+              <label for="title">Title:</label>
+              <input type="text" name="title" id="title" required />
+            </div>
+            <div class="author">
+              <label for="author">Author:</label>
+              <input type="text" name="author" id="author" required />
+            </div>
+            <div class="pages">
+              <label for="pages">Pages:</label>
+              <input
+                type="tel"
+                name="pages"
+                id="pages"
+                minlength="1"
+                maxlength="4"
+                required
+              />
+            </div>
+            <div class="year">
+              <label for="year">Year:</label>
+              <input
+                type="tel"
+                name="year"
+                id="year"
+                minlength="1"
+                maxlength="4"
+                required
+              />
+            </div>
+            <div class="read">
+              <input type="checkbox" name="read" id="read" />
+              <label for="read">Read this book.</label>
+            </div>
+            <button type="submit" id="add-book">Add Book</button>
+          </div>
+        </form>
+
+        <table></table>
+      </div>
+    </main>
+    <script src="book.js"></script>
+  </body>
 </html>
